@@ -35,10 +35,12 @@ export default function Woodfish({ skin }: { skin: string }) {
     }, [counter]);
 
     return (
-        <div>
+        <div className="flex justify-center items-center">
             <div>
                 {meritDisplay && (
-                    <div className="absolute left-1/3 top-1/3 animate-fade-in-down text-3xl ">{language === "en" ? "Merit +1" : "功德 +1"}</div>
+                    <div className="absolute left-1/3 top-1/3 animate-fade-in-down text-3xl font-chinese">
+                        {language === "en" ? "Merit +1" : "功德 +1"}
+                    </div>
                 )}
             </div>
             <div className="flex flex-col gap-6 justify-center items-center select-none">
@@ -53,6 +55,9 @@ export default function Woodfish({ skin }: { skin: string }) {
                     }}
                 />
             </div>
+            <p className="fixed bottom-10 text-3xl font-chinese">
+                {language === "en" ? "Current merit" : "当前功德"}: {counter}
+            </p>
         </div>
     );
 }
