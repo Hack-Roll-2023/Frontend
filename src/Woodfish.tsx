@@ -12,12 +12,9 @@ const Woodfish = () => {
     console.log("clicked");
     console.log(timeLeft);
     timeoutRef.current = setTimeout(() => {
-      if (timeLeft > 0) {
-        setCssStr("w-80 h-80");
-        setTimeLeft(timeLeft - 1);
-      }
-    }, 500);
-    setCssStr("w-96 h-96");
+      setCssStr("w-96 h-96");
+    }, 100);
+    setCssStr("w-80 h-80");
     return () => {
       clearTimeout(timeoutRef.current);
     };
