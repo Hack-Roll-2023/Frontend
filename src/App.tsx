@@ -15,6 +15,7 @@ function App() {
   const [start, setStart] = useState(false);
 
   const value = { language, setLanguage };
+
   return (
     <main className="w-screen h-screen bg-dark-900">
       <LanguageContext.Provider value={value}>

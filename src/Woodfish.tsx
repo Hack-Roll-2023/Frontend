@@ -9,6 +9,7 @@ const Woodfish = ({ language }: { language: String }) => {
 
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
   const timeoutRef_merit = useRef<ReturnType<typeof setTimeout>>();
+  const woodfishAudio = new Audio("/src/woodfish_sound.mp3");
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
@@ -48,6 +49,7 @@ const Woodfish = ({ language }: { language: String }) => {
           onClick={() => {
             setCounter(counter + 1);
             setMeritDisplay(true);
+            woodfishAudio.play();
           }}
         />
       </div>
