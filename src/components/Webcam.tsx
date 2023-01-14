@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from "react";
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:8888');
 
 interface Props {
     streamUrl: string;
@@ -24,6 +26,7 @@ export default function Webcam() {
                 mediaRecorder.stop();
                 const blob = new Blob(chunks, { type: "video/webm" });
                 console.log(blob);
+                socket.emit('stream', {data: blob});
                 // const response = await fetch(streamUrl, {
                 //     method: "POST",
                 //     body: blob,
