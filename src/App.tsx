@@ -1,4 +1,4 @@
-import { createContext, Dispatch, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Woodfish from "./components/Woodfish";
 import Webcam from "./components/Webcam";
@@ -15,9 +15,15 @@ export const LanguageContext = createContext<{
     setLanguage: () => {},
 });
 
+export const HideVideoContext = createContext<{ isHidden: boolean; setIsHidden: Dispatch<SetStateAction<boolean>> }>({
+    isHidden: false,
+    setIsHidden: () => {},
+});
+
 function WoodfishPanel() {
     const [skin, setSkin] = useState(woodfishDefaultSrc);
     const [skinArray, setSkinArray] = useState([woodfishDefaultSrc, woodfishWoodSrc, woodfishLeopardSrc, woodfishCNYSrc]);
+
     return (
         <div className="flex justify-center items-center">
             <svg
@@ -60,23 +66,36 @@ function App() {
     const [language, setLanguage] = useState("en");
     const [start, setStart] = useState(false);
 
+    const [isHidden, setIsHidden] = useState(false);
     const value = { language, setLanguage };
+
+    useEffect(() => {
+        // This will run when the page first loads and whenever the title changes
+        if (language === "zh") {
+            document.title = "电子木鱼 Pro";
+        } else {
+            document.title = "Woodfish Pro";
+        }
+    }, [language]);
+
     return (
         <main className="w-screen h-screen bg-dark-900">
             <LanguageContext.Provider value={value}>
-                <Navbar />
-                <div className="flex flex-col gap-6 justify-center items-center h-screen w-screen">
-                    {!start ? (
-                        <button className="btn" onClick={() => setStart(true)}>
-                            {language === "en" ? "Start" : "开始"}
-                        </button>
-                    ) : (
-                        <>
-                            <WoodfishPanel />
-                            <Webcam />
-                        </>
-                    )}
-                </div>
+                <HideVideoContext.Provider value={{ isHidden, setIsHidden }}>
+                    <Navbar />
+                    <div className="flex flex-col gap-6 justify-center items-center h-screen w-screen">
+                        {!start ? (
+                            <button className="btn" onClick={() => setStart(true)}>
+                                {language === "en" ? "Start" : "开始"}
+                            </button>
+                        ) : (
+                            <>
+                                <WoodfishPanel />
+                                {!isHidden && <Webcam />}
+                            </>
+                        )}
+                    </div>
+                </HideVideoContext.Provider>
             </LanguageContext.Provider>
         </main>
     );
